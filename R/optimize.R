@@ -135,6 +135,7 @@ bins.move <- function(xval, xtbl, binlo, binhi, binct, target.bins, verbose = F)
 
 #-------------------------------------------------------------------------------
 
+#' @description
 #' \code{bins.split} - Split a bin into two bins optimally.
 #'
 #' @param force When \code{TRUE}, splits or merges bins regardless of whether the best gain is positive.
@@ -211,6 +212,7 @@ bins.split <- function(xval, xtbl, binlo, binhi, binct, target.bins, force = F, 
 
 #-------------------------------------------------------------------------------
 
+#' @description
 #' \code{bins.merge} - Merges the two bins yielding the largest gain in error reduction.
 #' @export bins.merge
 #' @rdname bins.optimize
@@ -278,6 +280,7 @@ bins.merge <- function(xval, xtbl, binlo, binhi, binct, target.bins, force = F, 
 
 #-------------------------------------------------------------------------------
 
+#' @description
 #' \code{bins.move.iter} - Apply \code{bins.move} until there's no change. Can only reduce the error.
 #' @param lst List containing \code{xval, xtbl, binlo, binhi, binct}.
 #' @rdname bins.optimize
@@ -296,6 +299,7 @@ bins.move.iter <- function(lst, target.bins, verbose = F)
 
 #-------------------------------------------------------------------------------
 
+#' @description
 #' \code{bins.split.iter}  Iterate to repeatedly apply \code{bins.split}.
 #' @param exact.groups If \code{FALSE}, run until either the target.bins is
 #' reached or there's no more splits or merges that reduce the error.
@@ -319,6 +323,7 @@ bins.split.iter <- function(lst, target.bins, exact.groups = F, verbose = F)
 
 #-------------------------------------------------------------------------------
 
+#' @description
 #' \code{bins.merge.iter} Iterate to repeatedly apply \code{bins.merge}.
 #' @export bins.merge.iter
 #' @rdname bins.optimize

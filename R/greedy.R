@@ -22,6 +22,7 @@
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
+#' @description
 #' \code{bins.greedy} - Wrapper around \code{bins.greedy.impl}. Goes over the
 #' sorted values of \code{x} left to right and fills the bins with the values until
 #' they are about the right size.
@@ -64,6 +65,7 @@ bins.greedy <- function(x, nbins, minpts = floor(0.5 * length(x)/nbins), thresh 
 
 #-------------------------------------------------------------------------------
 
+#' @description
 #' \code{bins.greedy.impl} - Implementation of a single-pass binning algorithm that examines sorted data left to right
 #' and builds bins of the target size. The \code{bins.greedy} wrapper around this function provides a less involved interface.
 #' This is not symmetric wrt direction: symmetric distributions may not have symmetric bins if there are multiple points

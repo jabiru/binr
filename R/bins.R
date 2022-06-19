@@ -27,6 +27,7 @@
 #' Cut Numeric Values Into Evenly Distributed Groups (Bins)
 #'
 #' \code{bins} - Cuts points in vector x into evenly distributed groups (bins).
+#'
 #' \code{bins} takes 3 separate approaches to generating the cuts, picks the one
 #' resulting in the least mean square deviation from the ideal cut -
 #' \code{length(x) / target.bins} points in each bin - and then merges small bins
@@ -94,6 +95,7 @@
 #' }
 #' @seealso \code{\link{binr}}, \code{\link{bins.greedy}}, \code{\link{bins.quantiles}} \code{\link{bins.optimize}}
 #' @export
+#' @importFrom stats predict
 #' @rdname bins
 bins <- function(x, ...) {
    UseMethod("bins")
@@ -221,6 +223,7 @@ predict.binr <- function(obj, data, labels = FALSE, ...) {
 
 #-------------------------------------------------------------------------------
 
+#' @description
 #' \code{bins.getvals} - Extracts cut points from the object retured by \code{bins}.
 #' The cut points are always between the values in \code{x} and weighed such that
 #' the cut point splits the area under the line from (lo, n1) to (hi, n2) in half.
@@ -274,6 +277,7 @@ bins.getvals <- function(lst, minpt = -Inf, maxpt = Inf)
 
 #-------------------------------------------------------------------------------
 
+#' @description
 #' \code{bins.merr} - Partitioning the data into bins using splitting, merging
 #' and moving optimizes this error function, which is the mean squared error
 #' of point counts in the bins relative to the optimal number of points per bin.
