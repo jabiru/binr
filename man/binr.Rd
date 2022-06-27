@@ -3,7 +3,6 @@
 \docType{package}
 \name{binr}
 \alias{binr}
-\alias{binr-package}
 \title{Cut Numeric Values Into Evenly Distributed Groups (bins).}
 \description{
 Package \code{binr} (pronounced as "binner") provides algorithms for cutting

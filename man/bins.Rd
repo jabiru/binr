@@ -11,8 +11,15 @@
 \usage{
 bins(x, ...)
 
-\method{bins}{default}(x, target.bins, max.breaks = NA, exact.groups = F,
-  verbose = F, errthresh = 0.1, minpts = NA)
+\method{bins}{default}(
+  x,
+  target.bins,
+  max.breaks = NA,
+  exact.groups = F,
+  verbose = F,
+  errthresh = 0.1,
+  minpts = NA
+)
 
 \method{bins}{data.frame}(df, ...)
 
@@ -71,6 +78,16 @@ A list containing the following items (not all of them may be present):
 }
 \description{
 \code{bins} - Cuts points in vector x into evenly distributed groups (bins).
+
+\code{bins.getvals} - Extracts cut points from the object retured by \code{bins}.
+The cut points are always between the values in \code{x} and weighed such that
+the cut point splits the area under the line from (lo, n1) to (hi, n2) in half.
+
+\code{bins.merr} - Partitioning the data into bins using splitting, merging
+and moving optimizes this error function, which is the mean squared error
+of point counts in the bins relative to the optimal number of points per bin.
+}
+\details{
 \code{bins} takes 3 separate approaches to generating the cuts, picks the one
 resulting in the least mean square deviation from the ideal cut -
 \code{length(x) / target.bins} points in each bin - and then merges small bins
@@ -90,15 +107,6 @@ The 3 approaches are:
 For each of these approaches, apply redistribution of points among existing bins
 until there's no further decrease in error. See \code{bins.move}.
 
-\code{bins.getvals} - Extracts cut points from the object retured by \code{bins}.
-The cut points are always between the values in \code{x} and weighed such that
-the cut point splits the area under the line from (lo, n1) to (hi, n2) in half.
-
-\code{bins.merr} - Partitioning the data into bins using splitting, merging
-and moving optimizes this error function, which is the mean squared error
-of point counts in the bins relative to the optimal number of points per bin.
-}
-\details{
 The gains are computed using incremental analytical expresions derived for moving
 a value from one bin to the next, splitting a bin into two or merging two bins.
 }

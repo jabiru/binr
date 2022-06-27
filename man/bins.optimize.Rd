@@ -8,11 +8,6 @@
 \alias{bins.move.iter}
 \alias{bins.split.iter}
 \alias{bins.merge.iter}
-\alias{bins.split}
-\alias{bins.merge}
-\alias{bins.move.iter}
-\alias{bins.split.iter}
-\alias{bins.merge.iter}
 \title{Algorithms minimizing the binning error function \code{bins.merr}.}
 \usage{
 bins.move(xval, xtbl, binlo, binhi, binct, target.bins, verbose = F)
