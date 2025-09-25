@@ -3,7 +3,7 @@
 \name{bins.greedy}
 \alias{bins.greedy}
 \alias{bins.greedy.impl}
-\title{Greedy binning algorithm.}
+\title{Greedy binning algorithm}
 \usage{
 bins.greedy(x, nbins, minpts = floor(0.5 * length(x)/nbins), thresh = 0.8, naive = FALSE)
 
@@ -40,7 +40,7 @@ in a bin separately.}
 }
 \value{
 A list with the following items:
-\itemize{
+\describe{
    \item{binlo}{ - The "low" value falling into the bin.}
    \item{binhi}{ - The "high" value falling into the bin.}
    \item{binct}{ - The number of points falling into the bin.}

@@ -8,7 +8,7 @@
 \alias{bins.move.iter}
 \alias{bins.split.iter}
 \alias{bins.merge.iter}
-\title{Algorithms minimizing the binning error function \code{bins.merr}.}
+\title{Algorithms minimizing the binning error function \code{bins.merr}}
 \usage{
 bins.move(xval, xtbl, binlo, binhi, binct, target.bins, verbose = F)
 
@@ -48,7 +48,7 @@ increases the error.}
 }
 \value{
 A list containing the following items (not all of them may be present):
-\itemize{
+\describe{
    \item{binlo}{ - The "low" value falling into the bin.}
    \item{binhi}{ - The "high" value falling into the bin.}
    \item{binct}{ - The number of points falling into the bin.}
