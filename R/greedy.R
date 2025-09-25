@@ -34,7 +34,7 @@
 #'        by themselves take a whole bin to force the algorithm to place these values
 #'        in a bin separately.
 #' @name bins.greedy
-#' @title Greedy binning algorithm.
+#' @title Greedy binning algorithm
 #' @seealso \code{\link{binr}}, \code{\link{bins}}, \code{\link{bins.quantiles}} \code{\link{bins.optimize}}
 #' @export bins.greedy
 #' @rdname bins.greedy
@@ -83,7 +83,7 @@ bins.greedy <- function(x, nbins, minpts = floor(0.5 * length(x)/nbins), thresh 
 #'        If \code{m} is below the threshold, the points having value V are added to the current bin.
 #' @param verbose When \code{TRUE}, prints the number of points falling into the bins.
 #' @return A list with the following items:
-#' \itemize{
+#' \describe{
 #'    \item{binlo}{ - The "low" value falling into the bin.}
 #'    \item{binhi}{ - The "high" value falling into the bin.}
 #'    \item{binct}{ - The number of points falling into the bin.}
