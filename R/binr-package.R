@@ -26,7 +26,7 @@
 #'    available at http://www.apache.org/licenses/LICENSE-2.0
 #' @section Installation from GitHub:
 #' \code{devtools::install_github("jabiru/binr")}
-#' @keywords csv delimited file read.csv bigint 64-bit integer64
+#' @keywords binning bins discretization machine learning features
 #' @keywords internal
 "_PACKAGE"
 
