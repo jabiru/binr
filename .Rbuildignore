@@ -4,3 +4,4 @@
 ^\.editorconfig$
 ^\.idea$
 
+^CRAN-SUBMISSION$
