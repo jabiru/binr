@@ -245,6 +245,7 @@ predict.binr <- function(object, data, labels = FALSE, ...) {
 #'         \code{binlo}, \code{binhi} and \code{binct}, respectively.
 #' @seealso \code{\link{bins}}
 #' @rawNamespace export(bins.getvals)
+#' @usage bins.getvals(lst, minpt = -Inf, maxpt = Inf)
 bins.getvals <- function(lst, minpt = -Inf, maxpt = Inf)
 {
    # finds the point that splits the area under the line from (lo, n1) to (hi, n2) in half.
@@ -296,6 +297,7 @@ bins.getvals <- function(lst, minpt = -Inf, maxpt = Inf)
 #' @return The mean squared error.
 #' @seealso \code{\link{bins}}
 #' @rawNamespace export(bins.merr)
+#' @usage bins.merr(binct, target.bins)
 bins.merr <- function(binct, target.bins) {
   mean((binct - sum(binct) / target.bins)^2)
 }
