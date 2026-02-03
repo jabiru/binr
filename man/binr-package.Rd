@@ -14,7 +14,7 @@ Package binr (pronounced as "binner") provides algorithms for cutting numerical 
 
 \section{License}{
  Apache License, Version 2.0,
-   available at http://www.apache.org/licenses/LICENSE-2.0
+available at http://www.apache.org/licenses/LICENSE-2.0
 }
 
 \section{Installation from GitHub}{

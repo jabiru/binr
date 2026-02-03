@@ -5,8 +5,6 @@
 \alias{bins.default}
 \alias{bins.data.frame}
 \alias{predict.binr}
-\alias{bins.getvals}
-\alias{bins.merr}
 \title{Cut Numeric Values Into Evenly Distributed Groups (Bins)}
 \usage{
 bins(x, ...)
@@ -18,16 +16,13 @@ bins(x, ...)
   exact.groups = F,
   verbose = F,
   errthresh = 0.1,
-  minpts = NA
+  minpts = NA,
+  ...
 )
 
-\method{bins}{data.frame}(df, ...)
+\method{bins}{data.frame}(x, ...)
 
-\method{predict}{binr}(obj, data, labels = FALSE, ...)
-
-bins.getvals(lst, minpt = -Inf, maxpt = Inf)
-
-bins.merr(binct, target.bins)
+\method{predict}{binr}(object, data, labels = FALSE, ...)
 }
 \arguments{
 \item{x}{Vector of numbers}
@@ -52,52 +47,29 @@ if FALSE, the result may contain fewer than target.bins bins}
 \item{minpts}{Minimum number of points in a bin.
 In \code{bins}, one of \code{max.breaks} and \code{minpts} must be supplied.}
 
-\item{df}{A data frame whose numeric columns will be binned separately.}
+\item{object}{An object of class \code{"binr"}, typically the result of \code{bins()}.}
 
-\item{obj}{An object of class \code{"binr"}, typically the result of \code{bins()}.}
-
-\item{data}{Data to be cut according to \code{obj}; either a numeric vector or a data frame.}
+\item{data}{Data to be cut according to \code{object}; either a numeric vector or a data frame.}
 
 \item{labels}{Logical flag; when \code{TRUE}, return factor labels instead of integer codes.}
-
-\item{lst}{The list returned by the \code{bins} function.}
-
-\item{minpt}{The value replacing the lower bound of the cut points.}
-
-\item{maxpt}{The value replacing the upper bound of the cut points.}
-
-\item{binct}{The number of points falling into the bins.}
 }
 \value{
 A list containing the following items (not all of them may be present):
 \describe{
-   \item{binlo}{ - The index into \code{xval} yielding the "low" value falling into the bin.}
-   \item{binhi}{ - The index into \code{xval} yielding the "high" value falling into the bin.}
-   \item{binct}{ - The number of points falling into the bin.}
-   \item{xtbl}{ - The result of a call to \code{table(x)}.}
-   \item{xval}{ - The sorted unique values of the data points x. Essentially, a numeric version of \code{names(xtbl)}.}
-   \item{changed}{ - Flag indicating whether the bins have been modified by the function.}
-   \item{err}{ - Mean square root error between the resulting counts and ideal bins.}
-   \item{imax}{ - For the move, merge and split operations, the index of the bin with the maximum gain.}
-   \item{iside}{ - For the move operation, the side of the move: 0 = left, 1 = right.}
-   \item{gain}{ - Error gain obtained as the result of the function call.}
+\item{binlo}{ - The index into \code{xval} yielding the "low" value falling into the bin.}
+\item{binhi}{ - The index into \code{xval} yielding the "high" value falling into the bin.}
+\item{binct}{ - The number of points falling into the bin.}
+\item{xtbl}{ - The result of a call to \code{table(x)}.}
+\item{xval}{ - The sorted unique values of the data points x. Essentially, a numeric version of \code{names(xtbl)}.}
+\item{changed}{ - Flag indicating whether the bins have been modified by the function.}
+\item{err}{ - Mean square root error between the resulting counts and ideal bins.}
+\item{imax}{ - For the move, merge and split operations, the index of the bin with the maximum gain.}
+\item{iside}{ - For the move operation, the side of the move: 0 = left, 1 = right.}
+\item{gain}{ - Error gain obtained as the result of the function call.}
 }
-
-\code{bins.getvals} returns a vector of cut points extracted from the
-        \code{lst} object. The actual low and high values in each bin, as well
-        as the counts of values in each bin are placed in attributes
-        \code{binlo}, \code{binhi} and \code{binct}, respectively.
 }
 \description{
 \code{bins} - Cuts points in vector x into evenly distributed groups (bins).
-
-\code{bins.getvals} - Extracts cut points from the object retured by \code{bins}.
-The cut points are always between the values in \code{x} and weighed such that
-the cut point splits the area under the line from (lo, n1) to (hi, n2) in half.
-
-\code{bins.merr} - Partitioning the data into bins using splitting, merging
-and moving optimizes this error function, which is the mean squared error
-of point counts in the bins relative to the optimal number of points per bin.
 }
 \details{
 \code{bins} takes 3 separate approaches to generating the cuts, picks the one
@@ -107,14 +79,14 @@ unless \code{exact.groups} is \code{TRUE}
 The 3 approaches are:
 \enumerate{
 \item Use quantiles, and increase the number of even cuts up to max.breaks until the
-   number of groups reaches the desired number. See \code{\link{bins.quantiles}}.
+number of groups reaches the desired number. See \code{\link{bins.quantiles}}.
 \item Start with a single bin with all the data in it and perform bin splits until
-   either the desired number of bins is reached or there's no reduction in error
-   (the latter is ignored if \code{exact.groups} is \code{TRUE}). See \code{\link{bins.split}}.
+either the desired number of bins is reached or there's no reduction in error
+(the latter is ignored if \code{exact.groups} is \code{TRUE}). See \code{\link{bins.split}}.
 \item Start with \code{length(table(x))} bins, each containing exactly one distinct value
-   and merge bins until the desired number of bins is reached. If \code{exact.groups} is
-   \code{FALSE}, continue merging until there's no further reduction in error.
-   See \code{\link{bins.merge}}.
+and merge bins until the desired number of bins is reached. If \code{exact.groups} is
+\code{FALSE}, continue merging until there's no further reduction in error.
+See \code{\link{bins.merge}}.
 }
 For each of these approaches, apply redistribution of points among existing bins
 until there's no further decrease in error. See \code{bins.move}.

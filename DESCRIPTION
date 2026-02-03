@@ -15,4 +15,5 @@ Copyright: Copyright (C) Collective, Inc. | file inst/COPYRIGHTS
 NeedsCompilation: no
 Repository: CRAN
 Encoding: UTF-8
+Roxygen: list(markdown = TRUE, r6 = FALSE)
 RoxygenNote: 7.3.3

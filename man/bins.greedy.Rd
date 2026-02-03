@@ -41,11 +41,11 @@ in a bin separately.}
 \value{
 A list with the following items:
 \describe{
-   \item{binlo}{ - The "low" value falling into the bin.}
-   \item{binhi}{ - The "high" value falling into the bin.}
-   \item{binct}{ - The number of points falling into the bin.}
-   \item{xtbl}{ - The result of a call to \code{table(x)}.}
-   \item{xval}{ - The sorted unique values of the data points x. Essentially, a numeric version of \code{names(xtbl)}.}
+\item{binlo}{ - The "low" value falling into the bin.}
+\item{binhi}{ - The "high" value falling into the bin.}
+\item{binct}{ - The number of points falling into the bin.}
+\item{xtbl}{ - The result of a call to \code{table(x)}.}
+\item{xval}{ - The sorted unique values of the data points x. Essentially, a numeric version of \code{names(xtbl)}.}
 }
 }
 \description{

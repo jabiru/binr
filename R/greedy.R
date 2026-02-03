@@ -36,7 +36,7 @@
 #' @name bins.greedy
 #' @title Greedy binning algorithm
 #' @seealso \code{\link{binr}}, \code{\link{bins}}, \code{\link{bins.quantiles}} \code{\link{bins.optimize}}
-#' @export bins.greedy
+#' @rawNamespace export(bins.greedy)
 #' @rdname bins.greedy
 #' @usage bins.greedy(x, nbins, minpts = floor(0.5 * length(x)/nbins), thresh = 0.8, naive = FALSE)
 bins.greedy <- function(x, nbins, minpts = floor(0.5 * length(x)/nbins), thresh = 0.8, naive = FALSE)
@@ -90,7 +90,7 @@ bins.greedy <- function(x, nbins, minpts = floor(0.5 * length(x)/nbins), thresh 
 #'    \item{xtbl}{ - The result of a call to \code{table(x)}.}
 #'    \item{xval}{ - The sorted unique values of the data points x. Essentially, a numeric version of \code{names(xtbl)}.}
 #' }
-#' @export bins.greedy.impl
+#' @rawNamespace export(bins.greedy.impl)
 #' @rdname bins.greedy
 #' @usage bins.greedy.impl(xval, xtbl, xstp, binsz, nbins, thresh, verbose = F)
 bins.greedy.impl <- function(xval, xtbl, xstp, binsz, nbins, thresh, verbose = F)

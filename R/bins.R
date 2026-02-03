@@ -63,9 +63,8 @@
 #' @param ...          Further arguments passed to or from other methods; in particular,
 #'                     passed from \code{bins} to \code{bins.default} and from \code{predict.binr}
 #'                     to \code{cut}.
-#' @param df           A data frame whose numeric columns will be binned separately.
-#' @param obj          An object of class \code{"binr"}, typically the result of \code{bins()}.
-#' @param data         Data to be cut according to \code{obj}; either a numeric vector or a data frame.
+#' @param object       An object of class \code{"binr"}, typically the result of \code{bins()}.
+#' @param data         Data to be cut according to \code{object}; either a numeric vector or a data frame.
 #' @param labels       Logical flag; when \code{TRUE}, return factor labels instead of integer codes.
 #' @return A list containing the following items (not all of them may be present):
 #' \describe{
@@ -110,7 +109,7 @@ bins <- function(x, ...) {
 
 #' @export
 #' @rdname bins
-bins.default <- function(x, target.bins, max.breaks = NA, exact.groups=F, verbose=F, errthresh = 0.1, minpts = NA)
+bins.default <- function(x, target.bins, max.breaks = NA, exact.groups=F, verbose=F, errthresh = 0.1, minpts = NA, ...)
 {
    x <- x[!is.na(x)]
    if (length(x) < target.bins) stop(paste("bins: number of desired groups (", target.bins, ") is greater than the number of points (", length(x), ")"))
@@ -194,16 +193,17 @@ bins.default <- function(x, target.bins, max.breaks = NA, exact.groups=F, verbos
 
 #' @export
 #' @rdname bins
-bins.data.frame <- function(df, ...) {
+bins.data.frame <- function(x, ...) {
    structure(
-     lapply(df, function(x, ...) bins(x, ...), ...),
+     lapply(x, function(col, ...) bins(col, ...), ...),
      class = "binr"
      )
 }
 
 #' @export
 #' @rdname bins
-predict.binr <- function(obj, data, labels = FALSE, ...) {
+predict.binr <- function(object, data, labels = FALSE, ...) {
+   obj <- object
    if (is.data.frame(data)) {
      if (all(names(data) %in% names(obj))) {
        return(as.data.frame(sapply(
@@ -230,20 +230,21 @@ predict.binr <- function(obj, data, labels = FALSE, ...) {
 
 #-------------------------------------------------------------------------------
 
-#' @description
-#' \code{bins.getvals} - Extracts cut points from the object retured by \code{bins}.
+#' Extract Cut Points from Bins Object
+#'
+#' Extracts cut points from the object returned by \code{\link{bins}}.
 #' The cut points are always between the values in \code{x} and weighed such that
 #' the cut point splits the area under the line from (lo, n1) to (hi, n2) in half.
-#' @param lst The list returned by the \code{bins} function.
+#'
+#' @param lst The list returned by the \code{\link{bins}} function.
 #' @param minpt The value replacing the lower bound of the cut points.
 #' @param maxpt The value replacing the upper bound of the cut points.
-#' @return \code{bins.getvals} returns a vector of cut points extracted from the
+#' @return A vector of cut points extracted from the
 #'         \code{lst} object. The actual low and high values in each bin, as well
 #'         as the counts of values in each bin are placed in attributes
 #'         \code{binlo}, \code{binhi} and \code{binct}, respectively.
-#' @export bins.getvals
-#' @rdname bins
-#' @usage bins.getvals(lst, minpt = -Inf, maxpt = Inf)
+#' @seealso \code{\link{bins}}
+#' @rawNamespace export(bins.getvals)
 bins.getvals <- function(lst, minpt = -Inf, maxpt = Inf)
 {
    # finds the point that splits the area under the line from (lo, n1) to (hi, n2) in half.
@@ -284,14 +285,17 @@ bins.getvals <- function(lst, minpt = -Inf, maxpt = Inf)
 
 #-------------------------------------------------------------------------------
 
-#' @description
-#' \code{bins.merr} - Partitioning the data into bins using splitting, merging
+#' Binning Error Function
+#'
+#' Partitioning the data into bins using splitting, merging
 #' and moving optimizes this error function, which is the mean squared error
 #' of point counts in the bins relative to the optimal number of points per bin.
+#'
 #' @param binct The number of points falling into the bins.
-#' @export bins.merr
-#' @rdname bins
-#' @usage bins.merr(binct, target.bins)
+#' @param target.bins Number of bins desired; this is also the max number of bins.
+#' @return The mean squared error.
+#' @seealso \code{\link{bins}}
+#' @rawNamespace export(bins.merr)
 bins.merr <- function(binct, target.bins) {
   mean((binct - sum(binct) / target.bins)^2)
 }

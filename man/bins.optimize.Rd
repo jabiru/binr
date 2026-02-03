@@ -49,16 +49,16 @@ increases the error.}
 \value{
 A list containing the following items (not all of them may be present):
 \describe{
-   \item{binlo}{ - The "low" value falling into the bin.}
-   \item{binhi}{ - The "high" value falling into the bin.}
-   \item{binct}{ - The number of points falling into the bin.}
-   \item{xtbl}{ - The result of a call to \code{table(x)}.}
-   \item{xval}{ - The sorted unique values of the data points x. Essentially, a numeric version of \code{names(xtbl)}.}
-   \item{changed}{ - Flag indicating whether the bins have been modified by the function.}
-   \item{err}{ - Mean square root error between the resulting counts and ideal bins.}
-   \item{imax}{ - For the move, merge and split operations, the index of the bin with the maximum gain.}
-   \item{iside}{ - For the move operation, the side of the move: 0 = left, 1 = right.}
-   \item{gain}{ - Error gain obtained as the result of the function call.}
+\item{binlo}{ - The "low" value falling into the bin.}
+\item{binhi}{ - The "high" value falling into the bin.}
+\item{binct}{ - The number of points falling into the bin.}
+\item{xtbl}{ - The result of a call to \code{table(x)}.}
+\item{xval}{ - The sorted unique values of the data points x. Essentially, a numeric version of \code{names(xtbl)}.}
+\item{changed}{ - Flag indicating whether the bins have been modified by the function.}
+\item{err}{ - Mean square root error between the resulting counts and ideal bins.}
+\item{imax}{ - For the move, merge and split operations, the index of the bin with the maximum gain.}
+\item{iside}{ - For the move operation, the side of the move: 0 = left, 1 = right.}
+\item{gain}{ - Error gain obtained as the result of the function call.}
 }
 }
 \description{
