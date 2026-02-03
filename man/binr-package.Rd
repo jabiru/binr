@@ -6,7 +6,7 @@
 \alias{binr-package}
 \title{binr: Cut Numeric Values into Evenly Distributed Groups}
 \description{
-Implementation of algorithms for cutting numerical values exhibiting a potentially highly skewed distribution into evenly distributed groups (bins). This functionality can be applied for binning discrete values, such as counts, as well as for discretization of continuous values, for example, during generation of features used in machine learning algorithms.
+Package binr (pronounced as "binner") provides algorithms for cutting numerical values exhibiting a potentially highly skewed distribution into evenly distributed groups (bins). This functionality can be applied for binning discrete values, such as counts, as well as for discretization of continuous values, for example, during generation of features used in machine learning algorithms.
 }
 \section{Copyright}{
  Copyright (C) Collective, Inc.; with portions Copyright (C) Jabiru Ventures LLC
@@ -29,11 +29,10 @@ Implementation of algorithms for cutting numerical values exhibiting a potential
 \strong{Maintainer}: Sergei Izrailev \email{sizrailev@jabiruventures.com}
 
 }
-\keyword{64-bit}
-\keyword{bigint}
-\keyword{csv}
-\keyword{delimited}
-\keyword{file}
-\keyword{integer64}
+\keyword{binning}
+\keyword{bins}
+\keyword{discretization}
+\keyword{features}
 \keyword{internal}
-\keyword{read.csv}
+\keyword{learning}
+\keyword{machine}
