@@ -22,7 +22,7 @@
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
-#' Algorithms minimizing the binning error function \code{bins.merr}.
+#' Algorithms minimizing the binning error function \code{bins.merr}
 #'
 #' \code{bins.move} - Compute the best move of a value from one bin to its neighbor
 #' @param xval Sorted unique values of the data set x. This should be the numeric version of \code{names(xtbl)}.
@@ -32,7 +32,7 @@
 #' @param binct The number of points falling into the bin.
 #' @param target.bins Number of bins desired; this is also the max number of bins.
 #' @return A list containing the following items (not all of them may be present):
-#' \itemize{
+#' \describe{
 #'    \item{binlo}{ - The "low" value falling into the bin.}
 #'    \item{binhi}{ - The "high" value falling into the bin.}
 #'    \item{binct}{ - The number of points falling into the bin.}

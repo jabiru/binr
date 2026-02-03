@@ -58,7 +58,7 @@ In \code{bins}, one of \code{max.breaks} and \code{minpts} must be supplied.}
 }
 \value{
 A list containing the following items (not all of them may be present):
-\itemize{
+\describe{
    \item{binlo}{ - The index into \code{xval} yielding the "low" value falling into the bin.}
    \item{binhi}{ - The index into \code{xval} yielding the "high" value falling into the bin.}
    \item{binct}{ - The number of points falling into the bin.}
@@ -94,15 +94,15 @@ resulting in the least mean square deviation from the ideal cut -
 unless \code{exact.groups} is \code{TRUE}
 The 3 approaches are:
 \enumerate{
-\item{Use quantiles, and increase the number of even cuts up to max.breaks until the
-   number of groups reaches the desired number. See \code{\link{bins.quantiles}}. }
-\item{Start with a single bin with all the data in it and perform bin splits until
+\item Use quantiles, and increase the number of even cuts up to max.breaks until the
+   number of groups reaches the desired number. See \code{\link{bins.quantiles}}.
+\item Start with a single bin with all the data in it and perform bin splits until
    either the desired number of bins is reached or there's no reduction in error
-   (the latter is ignored if \code{exact.groups} is \code{TRUE}). See \code{\link{bins.split}}. }
-\item{Start with \code{length(table(x))} bins, each containing exactly one distinct value
+   (the latter is ignored if \code{exact.groups} is \code{TRUE}). See \code{\link{bins.split}}.
+\item Start with \code{length(table(x))} bins, each containing exactly one distinct value
    and merge bins until the desired number of bins is reached. If \code{exact.groups} is
    \code{FALSE}, continue merging until there's no further reduction in error.
-   See \code{\link{bins.merge}}. }
+   See \code{\link{bins.merge}}.
 }
 For each of these approaches, apply redistribution of points among existing bins
 until there's no further decrease in error. See \code{bins.move}.

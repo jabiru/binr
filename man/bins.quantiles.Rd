@@ -18,7 +18,7 @@ large as \code{target.bins}.}
 \item{verbose}{Indicates verbose output.}
 }
 \description{
-Cuts the data set x into roughly equal groups using quantiles.
+Cuts the data set x into roughly equal groups using quantiles
 }
 \details{
 Because the number of unique values may be smaller than target.bins,
