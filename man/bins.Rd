@@ -32,6 +32,10 @@ bins.merr(binct, target.bins)
 \arguments{
 \item{x}{Vector of numbers}
 
+\item{...}{Further arguments passed to or from other methods; in particular,
+passed from \code{bins} to \code{bins.default} and from \code{predict.binr}
+to \code{cut}.}
+
 \item{target.bins}{Number of groups desired; this is also the max number of groups.}
 
 \item{max.breaks}{Used for initial cut. If \code{exact.groups} is \code{FALSE}, bins are merged
@@ -47,6 +51,14 @@ if FALSE, the result may contain fewer than target.bins bins}
 
 \item{minpts}{Minimum number of points in a bin.
 In \code{bins}, one of \code{max.breaks} and \code{minpts} must be supplied.}
+
+\item{df}{A data frame whose numeric columns will be binned separately.}
+
+\item{obj}{An object of class \code{"binr"}, typically the result of \code{bins()}.}
+
+\item{data}{Data to be cut according to \code{obj}; either a numeric vector or a data frame.}
+
+\item{labels}{Logical flag; when \code{TRUE}, return factor labels instead of integer codes.}
 
 \item{lst}{The list returned by the \code{bins} function.}
 

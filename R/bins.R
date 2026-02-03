@@ -60,6 +60,13 @@
 #' @param errthresh    If the error is below the provided value, stops after the first rough estimate of the bins.
 #' @param minpts       Minimum number of points in a bin.
 #'                     In \code{bins}, one of \code{max.breaks} and \code{minpts} must be supplied.
+#' @param ...          Further arguments passed to or from other methods; in particular,
+#'                     passed from \code{bins} to \code{bins.default} and from \code{predict.binr}
+#'                     to \code{cut}.
+#' @param df           A data frame whose numeric columns will be binned separately.
+#' @param obj          An object of class \code{"binr"}, typically the result of \code{bins()}.
+#' @param data         Data to be cut according to \code{obj}; either a numeric vector or a data frame.
+#' @param labels       Logical flag; when \code{TRUE}, return factor labels instead of integer codes.
 #' @return A list containing the following items (not all of them may be present):
 #' \describe{
 #'    \item{binlo}{ - The index into \code{xval} yielding the "low" value falling into the bin.}
