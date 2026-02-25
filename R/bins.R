@@ -4,10 +4,10 @@
 #
 # Implementation.
 #
-# Sergei Izrailev, 2011-2017
+# Sergei Izrailev, 2011-2015
 #-------------------------------------------------------------------------------
 # Copyright 2011-2014 Collective, Inc.
-# Copyright 2015-2017 Jabiru Ventures LLC
+# Copyright 2015 Jabiru Ventures LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,8 +20,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------#-------------------------------------------------------------------------------
 
 
 #' Cut Numeric Values Into Evenly Distributed Groups (Bins)
@@ -29,8 +28,8 @@
 #' \code{bins} - Cuts points in vector x into evenly distributed groups (bins).
 #' \code{bins} takes 3 separate approaches to generating the cuts, picks the one
 #' resulting in the least mean square deviation from the ideal cut -
-#' \code{length(x) / target.bins} points in each bin - and then merges small bins
-#' unless \code{exact.groups} is \code{TRUE}
+#' \code{length(x) / target.bins} points in each bin - and then  merges small bins
+#' unless excat.groups is \code{TRUE}
 #' The 3 approaches are:
 #' \enumerate{
 #' \item{Use quantiles, and increase the number of even cuts up to max.breaks until the
@@ -61,8 +60,8 @@
 #'                     In \code{bins}, one of \code{max.breaks} and \code{minpts} must be supplied.
 #' @return A list containing the following items (not all of them may be present):
 #' \itemize{
-#'    \item{binlo}{ - The index into \code{xval} yielding the "low" value falling into the bin.}
-#'    \item{binhi}{ - The index into \code{xval} yielding the "high" value falling into the bin.}
+#'    \item{binlo}{ - The "low" value falling into the bin.}
+#'    \item{binhi}{ - The "high" value falling into the bin.}
 #'    \item{binct}{ - The number of points falling into the bin.}
 #'    \item{xtbl}{ - The result of a call to \code{table(x)}.}
 #'    \item{xval}{ - The sorted unique values of the data points x. Essentially, a numeric version of \code{names(xtbl)}.}
@@ -95,15 +94,8 @@
 #' @seealso \code{\link{binr}}, \code{\link{bins.greedy}}, \code{\link{bins.quantiles}} \code{\link{bins.optimize}}
 #' @export
 #' @rdname bins
-bins <- function(x, ...) {
-   UseMethod("bins")
-}
-
-#' @export
-#' @rdname bins
-bins.default <- function(x, target.bins, max.breaks = NA, exact.groups=F, verbose=F, errthresh = 0.1, minpts = NA)
+bins <- function(x, target.bins, max.breaks = NA, exact.groups=F, verbose=F, errthresh = 0.1, minpts = NA)
 {
-   x <- x[!is.na(x)]
    if (length(x) < target.bins) stop(paste("bins: number of desired groups (", target.bins, ") is greater than the number of points (", length(x), ")"))
    all <- vector(3, mode="list")
    names(all) <- c("quantile", "split", "merge")
@@ -124,8 +116,7 @@ bins.default <- function(x, target.bins, max.breaks = NA, exact.groups=F, verbos
    }
 
    all$quantile <- bins.quantiles(x, target.bins, max.breaks)
-   if (all$quantile$err / (length(x) / target.bins) < errthresh)
-      return(structure(all$quantile, class = "binr")) # good enough
+   if (all$quantile$err / (length(x) / target.bins) < errthresh) return(all$quantile) # good enough
 
    xval <- all$quantile$xval
    xtbl <- all$quantile$xtbl
@@ -180,44 +171,9 @@ bins.default <- function(x, target.bins, max.breaks = NA, exact.groups=F, verbos
       }
    }
 
-   structure(lst, class = "binr")
+   return(lst)
 }
 
-#' @export
-#' @rdname bins
-bins.data.frame <- function(df, ...) {
-   structure(
-     lapply(df, function(x, ...) bins(x, ...), ...),
-     class = "binr"
-     )
-}
-
-#' @export
-#' @rdname bins
-predict.binr <- function(obj, data, labels = FALSE, ...) {
-   if (is.data.frame(data)) {
-     if (all(names(data) %in% names(obj))) {
-       return(as.data.frame(sapply(
-         names(data), function(x) predict(obj[[x]], data[[x]],
-         labels = labels, ...)
-         )))
-     } else {
-        stop("data.frame has columns without bin cuts")
-     }
-   } else {
-     out <- cut(data, bins.getvals(obj),
-                labels = if(labels) NULL else FALSE, ...)
-     if (NA %in% out) {
-       if (labels) {
-         levels(out) <- c(levels(out), "[NA]")
-         out[is.na(out)] <- "[NA]"
-       } else {
-         out[is.na(out)] <- max(out, na.rm = TRUE) + 1
-       }
-     }
-     return(out)
-   }
-}
 
 #-------------------------------------------------------------------------------
 
@@ -228,12 +184,9 @@ predict.binr <- function(obj, data, labels = FALSE, ...) {
 #' @param minpt The value replacing the lower bound of the cut points.
 #' @param maxpt The value replacing the upper bound of the cut points.
 #' @return \code{bins.getvals} returns a vector of cut points extracted from the
-#'         \code{lst} object. The actual low and high values in each bin, as well
-#'         as the counts of values in each bin are placed in attributes
-#'         \code{binlo}, \code{binhi} and \code{binct}, respectively.
-#' @export bins.getvals
+#'         \code{lst} object.
+#' @export
 #' @rdname bins
-#' @usage bins.getvals(lst, minpt = -Inf, maxpt = Inf)
 bins.getvals <- function(lst, minpt = -Inf, maxpt = Inf)
 {
    # finds the point that splits the area under the line from (lo, n1) to (hi, n2) in half.
@@ -278,12 +231,9 @@ bins.getvals <- function(lst, minpt = -Inf, maxpt = Inf)
 #' and moving optimizes this error function, which is the mean squared error
 #' of point counts in the bins relative to the optimal number of points per bin.
 #' @param binct The number of points falling into the bins.
-#' @export bins.merr
+#' @export
 #' @rdname bins
-#' @usage bins.merr(binct, target.bins)
-bins.merr <- function(binct, target.bins) {
-  mean((binct - sum(binct) / target.bins)^2)
-}
+bins.merr <- function(binct, target.bins) { mean((binct - sum(binct) / target.bins)^2) }
 
 #-------------------------------------------------------------------------------
 

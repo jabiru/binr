@@ -19,8 +19,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------#-------------------------------------------------------------------------------
 
 #' \code{bins.greedy} - Wrapper around \code{bins.greedy.impl}. Goes over the
 #' sorted values of \code{x} left to right and fills the bins with the values until
@@ -35,10 +34,9 @@
 #' @name bins.greedy
 #' @title Greedy binning algorithm.
 #' @seealso \code{\link{binr}}, \code{\link{bins}}, \code{\link{bins.quantiles}} \code{\link{bins.optimize}}
-#' @export bins.greedy
+#' @export
 #' @rdname bins.greedy
-#' @usage bins.greedy(x, nbins, minpts = floor(0.5 * length(x)/nbins), thresh = 0.8, naive = FALSE)
-bins.greedy <- function(x, nbins, minpts = floor(0.5 * length(x)/nbins), thresh = 0.8, naive = FALSE)
+bins.greedy <- function(x, nbins, minpts = floor(0.5 * length(x) / nbins), thresh = 0.8, naive = FALSE)
 {
    xtbl <- table(x)
    xval <- sort(unique(x))
@@ -88,10 +86,9 @@ bins.greedy <- function(x, nbins, minpts = floor(0.5 * length(x)/nbins), thresh 
 #'    \item{xtbl}{ - The result of a call to \code{table(x)}.}
 #'    \item{xval}{ - The sorted unique values of the data points x. Essentially, a numeric version of \code{names(xtbl)}.}
 #' }
-#' @export bins.greedy.impl
+#' @export
 #' @rdname bins.greedy
-#' @usage bins.greedy.impl(xval, xtbl, xstp, binsz, nbins, thresh, verbose = F)
-bins.greedy.impl <- function(xval, xtbl, xstp, binsz, nbins, thresh, verbose = F)
+bins.greedy.impl <- function(xval, xtbl, xstp, binsz, nbins, thresh, verbose=F)
 {
    nvals <- length(xval)
    if (nvals != length(xtbl) || nvals != length(xstp)) stop("bins.greedy: xval, xtbl and xstp lengths don't match")

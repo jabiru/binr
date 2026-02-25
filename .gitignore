@@ -11,3 +11,6 @@
 # Mac folder stuff
 .DS_Store
 
+# PyCharm
+.idea
+

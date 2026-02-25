@@ -19,8 +19,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#-------------------------------------------------------------------------------
-#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------#-------------------------------------------------------------------------------
 
 
 #' Cuts the data set x into roughly equal groups using quantiles.
@@ -37,8 +36,7 @@
 #' @name bins.quantiles
 #' @title Quantile-based binning
 #' @seealso \code{\link{binr}}, \code{\link{bins}}, \code{\link{bins.greedy}}, \code{\link{bins.optimize}}
-#' @export bins.quantiles
-#' @usage bins.quantiles(x, target.bins, max.breaks, verbose = FALSE)
+#' @export
 bins.quantiles <- function(x, target.bins, max.breaks, verbose = FALSE)
 {
    n.groups <- 1
