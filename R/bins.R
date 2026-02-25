@@ -26,21 +26,22 @@
 #' Cut Numeric Values Into Evenly Distributed Groups (Bins)
 #'
 #' \code{bins} - Cuts points in vector x into evenly distributed groups (bins).
+#'
 #' \code{bins} takes 3 separate approaches to generating the cuts, picks the one
 #' resulting in the least mean square deviation from the ideal cut -
-#' \code{length(x) / target.bins} points in each bin - and then  merges small bins
-#' unless excat.groups is \code{TRUE}
+#' \code{length(x) / target.bins} points in each bin - and then merges small bins
+#' unless \code{exact.groups} is \code{TRUE}
 #' The 3 approaches are:
 #' \enumerate{
-#' \item{Use quantiles, and increase the number of even cuts up to max.breaks until the
-#'    number of groups reaches the desired number. See \code{\link{bins.quantiles}}. }
-#' \item{Start with a single bin with all the data in it and perform bin splits until
+#' \item Use quantiles, and increase the number of even cuts up to max.breaks until the
+#'    number of groups reaches the desired number. See \code{\link{bins.quantiles}}.
+#' \item Start with a single bin with all the data in it and perform bin splits until
 #'    either the desired number of bins is reached or there's no reduction in error
-#'    (the latter is ignored if \code{exact.groups} is \code{TRUE}). See \code{\link{bins.split}}. }
-#' \item{Start with \code{length(table(x))} bins, each containing exactly one distinct value
+#'    (the latter is ignored if \code{exact.groups} is \code{TRUE}). See \code{\link{bins.split}}.
+#' \item Start with \code{length(table(x))} bins, each containing exactly one distinct value
 #'    and merge bins until the desired number of bins is reached. If \code{exact.groups} is
 #'    \code{FALSE}, continue merging until there's no further reduction in error.
-#'    See \code{\link{bins.merge}}. }
+#'    See \code{\link{bins.merge}}.
 #' }
 #' For each of these approaches, apply redistribution of points among existing bins
 #' until there's no further decrease in error. See \code{bins.move}.
@@ -59,9 +60,9 @@
 #' @param minpts       Minimum number of points in a bin.
 #'                     In \code{bins}, one of \code{max.breaks} and \code{minpts} must be supplied.
 #' @return A list containing the following items (not all of them may be present):
-#' \itemize{
-#'    \item{binlo}{ - The "low" value falling into the bin.}
-#'    \item{binhi}{ - The "high" value falling into the bin.}
+#' \describe{
+#'    \item{binlo}{ - The index into \code{xval} yielding the "low" value falling into the bin.}
+#'    \item{binhi}{ - The index into \code{xval} yielding the "high" value falling into the bin.}
 #'    \item{binct}{ - The number of points falling into the bin.}
 #'    \item{xtbl}{ - The result of a call to \code{table(x)}.}
 #'    \item{xval}{ - The sorted unique values of the data points x. Essentially, a numeric version of \code{names(xtbl)}.}
@@ -177,16 +178,22 @@ bins <- function(x, target.bins, max.breaks = NA, exact.groups=F, verbose=F, err
 
 #-------------------------------------------------------------------------------
 
-#' \code{bins.getvals} - Extracts cut points from the object retured by \code{bins}.
+#' Extract Cut Points from Bins Object
+#'
+#' Extracts cut points from the object returned by \code{\link{bins}}.
 #' The cut points are always between the values in \code{x} and weighed such that
 #' the cut point splits the area under the line from (lo, n1) to (hi, n2) in half.
-#' @param lst The list returned by the \code{bins} function.
+#'
+#' @param lst The list returned by the \code{\link{bins}} function.
 #' @param minpt The value replacing the lower bound of the cut points.
 #' @param maxpt The value replacing the upper bound of the cut points.
-#' @return \code{bins.getvals} returns a vector of cut points extracted from the
-#'         \code{lst} object.
+#' @return A vector of cut points extracted from the
+#'         \code{lst} object. The actual low and high values in each bin, as well
+#'         as the counts of values in each bin are placed in attributes
+#'         \code{binlo}, \code{binhi} and \code{binct}, respectively.
+#' @seealso \code{\link{bins}}
 #' @export
-#' @rdname bins
+#' @usage bins.getvals(lst, minpt = -Inf, maxpt = Inf)
 bins.getvals <- function(lst, minpt = -Inf, maxpt = Inf)
 {
    # finds the point that splits the area under the line from (lo, n1) to (hi, n2) in half.
@@ -195,7 +202,7 @@ bins.getvals <- function(lst, minpt = -Inf, maxpt = Inf)
       if (n1 == n2) return((hi + lo) / 2)
       a <- hi - lo
       b <- 2 * a * n1 / (n2 - n1)
-      c = a * a * (n1 + n2)  / (n2 - n1) / 2
+      c <- a * a * (n1 + n2)  / (n2 - n1) / 2
       d <- (-b + sign(n2 - n1) * sqrt(b * b + 4 * c)) / 2
       return(lo + d)
    }
@@ -227,12 +234,18 @@ bins.getvals <- function(lst, minpt = -Inf, maxpt = Inf)
 
 #-------------------------------------------------------------------------------
 
-#' \code{bins.merr} - Partitioning the data into bins using splitting, merging
+#' Binning Error Function
+#'
+#' Partitioning the data into bins using splitting, merging
 #' and moving optimizes this error function, which is the mean squared error
 #' of point counts in the bins relative to the optimal number of points per bin.
+#'
 #' @param binct The number of points falling into the bins.
+#' @param target.bins Number of bins desired; this is also the max number of bins.
+#' @return The mean squared error.
+#' @seealso \code{\link{bins}}
 #' @export
-#' @rdname bins
+#' @usage bins.merr(binct, target.bins)
 bins.merr <- function(binct, target.bins) { mean((binct - sum(binct) / target.bins)^2) }
 
 #-------------------------------------------------------------------------------
@@ -252,8 +265,8 @@ if (0)
    binsz <- floor(length(x) / nbins)
    minpts <- 1000
    thresh <- 0.8
-   target.bins = 10
-   max.breaks = 20
+   target.bins <- 10
+   max.breaks <- 20
 
    binlo <- 1:10
    binhi <- c(1:9,length(xval))
