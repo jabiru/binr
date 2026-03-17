@@ -11,6 +11,5 @@ vers=`grep Version: DESCRIPTION | awk '{print $2}'`
 R --vanilla --quiet -e 'library(devtools); document()'
 
 export R_RD4PDF=times,hyper
-rm -f inst/${pkg}_${vers}.pdf 
+rm -f inst/${pkg}_${vers}.pdf
 R CMD Rd2pdf -o inst/${pkg}_${vers}.pdf .
-
