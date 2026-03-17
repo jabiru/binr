@@ -19,8 +19,7 @@ large as \code{target.bins}.}
 }
 \description{
 Cuts the data set x into roughly equal groups using quantiles
-}
-\details{
+
 Because the number of unique values may be smaller than target.bins,
 the function gradually increases the number of quantiles up to max.breaks
 or until the target.bins number of bins is reached.

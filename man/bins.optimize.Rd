@@ -8,7 +8,7 @@
 \alias{bins.move.iter}
 \alias{bins.split.iter}
 \alias{bins.merge.iter}
-\title{Algorithms minimizing the binning error function \code{bins.merr}}
+\title{Algorithms for Binning Optimization}
 \usage{
 bins.move(xval, xtbl, binlo, binhi, binct, target.bins, verbose = F)
 
@@ -62,6 +62,8 @@ A list containing the following items (not all of them may be present):
 }
 }
 \description{
+Algorithms minimizing the binning error function \code{bins.merr}
+
 \code{bins.move} - Compute the best move of a value from one bin to its neighbor
 
 \code{bins.split} - Split a bin into two bins optimally.

@@ -23,6 +23,7 @@
 #-------------------------------------------------------------------------------
 
 
+#' @description
 #' Cuts the data set x into roughly equal groups using quantiles
 #'
 #' Because the number of unique values may be smaller than target.bins,
@@ -37,8 +38,8 @@
 #' @name bins.quantiles
 #' @title Quantile-based binning
 #' @seealso \code{\link{binr}}, \code{\link{bins}}, \code{\link{bins.greedy}}, \code{\link{bins.optimize}}
-#' @export bins.quantiles
 #' @importFrom stats quantile
+#' @export
 #' @usage bins.quantiles(x, target.bins, max.breaks, verbose = FALSE)
 bins.quantiles <- function(x, target.bins, max.breaks, verbose = FALSE)
 {

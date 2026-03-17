@@ -22,6 +22,9 @@
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
+#' Algorithms for Binning Optimization
+#'
+#' @description
 #' Algorithms minimizing the binning error function \code{bins.merr}
 #'
 #' \code{bins.move} - Compute the best move of a value from one bin to its neighbor
@@ -96,7 +99,7 @@ bins.move <- function(xval, xtbl, binlo, binhi, binct, target.bins, verbose = F)
       }
    }
 
-   changed = FALSE
+   changed <- FALSE
    if (!is.na(bestside))
    {
       i <- bestindx
@@ -109,7 +112,7 @@ bins.move <- function(xval, xtbl, binlo, binhi, binct, target.bins, verbose = F)
          binct[i] <- binct[i] - cnthi
          binhi[i] <- binhi[i] - 1
          binlo[i + 1] <- binlo[i + 1] - 1
-         changed = TRUE
+         changed <- TRUE
       }
       else if (bestside == 0)
       {
@@ -118,7 +121,7 @@ bins.move <- function(xval, xtbl, binlo, binhi, binct, target.bins, verbose = F)
          binct[i] <- binct[i] - cntlo
          binlo[i] <- binlo[i] + 1
          binhi[i - 1] <- binhi[i - 1] + 1
-         changed = TRUE
+         changed <- TRUE
       }
 
    }
@@ -179,7 +182,7 @@ bins.split <- function(xval, xtbl, binlo, binhi, binct, target.bins, force = F, 
    }
 
    # This works with a single bin too.
-   changed = FALSE
+   changed <- FALSE
    if (!is.na(bestitem) && (bestgain > 0 || force))
    {
       k <- bestitem
@@ -201,7 +204,7 @@ bins.split <- function(xval, xtbl, binlo, binhi, binct, target.bins, force = F, 
       binlo <- binlo.new
       binhi <- binhi.new
       binct <- binct.new
-      changed = TRUE
+      changed <- TRUE
    }
 
    names(binct) <- paste("[", xval[binlo], ", ", xval[binhi], "]", sep="")
@@ -249,7 +252,7 @@ bins.merge <- function(xval, xtbl, binlo, binhi, binct, target.bins, force = F, 
       }
    }
 
-   changed = FALSE
+   changed <- FALSE
    if (!is.na(bestindx) && (bestgain > 0 || force))
    {
       aplusb <- binct[bestindx] + binct[bestindx + 1]
@@ -269,7 +272,7 @@ bins.merge <- function(xval, xtbl, binlo, binhi, binct, target.bins, force = F, 
       binlo <- binlo.new
       binhi <- binhi.new
       binct <- binct.new
-      changed = TRUE
+      changed <- TRUE
    }
 
    names(binct) <- paste("[", xval[binlo], ", ", xval[binhi], "]", sep="")
@@ -288,7 +291,7 @@ bins.merge <- function(xval, xtbl, binlo, binhi, binct, target.bins, force = F, 
 #' @usage bins.move.iter(lst, target.bins, verbose = F)
 bins.move.iter <- function(lst, target.bins, verbose = F)
 {
-   changed = TRUE
+   changed <- TRUE
    while (changed)
    {
       lst <- bins.move(lst$xval, lst$xtbl, lst$binlo, lst$binhi, lst$binct, target.bins=target.bins, verbose=F)
@@ -311,7 +314,7 @@ bins.move.iter <- function(lst, target.bins, verbose = F)
 #' @usage bins.split.iter(lst, target.bins, exact.groups = F, verbose = F)
 bins.split.iter <- function(lst, target.bins, exact.groups = F, verbose = F)
 {
-   changed = TRUE
+   changed <- TRUE
    # only split if the number of bins is less than desired
    while ( changed && length(lst$binct) < target.bins )
    {
@@ -331,11 +334,11 @@ bins.split.iter <- function(lst, target.bins, exact.groups = F, verbose = F)
 #' @usage bins.merge.iter(lst, target.bins, exact.groups = F, verbose = F)
 bins.merge.iter <- function(lst, target.bins, exact.groups = F, verbose = F)
 {
-   changed = TRUE
+   changed <- TRUE
    # always merge if the number of bins exceeds the desired number
    while ( (!exact.groups && changed) || length(lst$binct) > target.bins )
    {
-      force = length(lst$binct) > target.bins
+      force <- length(lst$binct) > target.bins
       lst <- bins.merge(lst$xval, lst$xtbl, lst$binlo, lst$binhi, lst$binct, target.bins=target.bins, force=force, verbose=verbose)
       if (verbose) print(paste(lst$gain, lst$err))
       changed <- lst$changed

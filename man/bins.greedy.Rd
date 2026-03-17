@@ -5,7 +5,7 @@
 \alias{bins.greedy.impl}
 \title{Greedy binning algorithm}
 \usage{
-bins.greedy(x, nbins, minpts = floor(0.5 * length(x)/nbins), thresh = 0.8, naive = FALSE)
+bins.greedy(x, nbins, minpts = floor(0.5 * length(x) / nbins), thresh = 0.8, naive = FALSE)
 
 bins.greedy.impl(xval, xtbl, xstp, binsz, nbins, thresh, verbose = F)
 }

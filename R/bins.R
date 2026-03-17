@@ -4,10 +4,10 @@
 #
 # Implementation.
 #
-# Sergei Izrailev, 2011-2017
+# Sergei Izrailev, 2011-2015
 #-------------------------------------------------------------------------------
 # Copyright 2011-2014 Collective, Inc.
-# Copyright 2015-2017 Jabiru Ventures LLC
+# Copyright 2015-2026 Jabiru Ventures LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -111,7 +111,6 @@ bins <- function(x, ...) {
 #' @rdname bins
 bins.default <- function(x, target.bins, max.breaks = NA, exact.groups=F, verbose=F, errthresh = 0.1, minpts = NA, ...)
 {
-   x <- x[!is.na(x)]
    if (length(x) < target.bins) stop(paste("bins: number of desired groups (", target.bins, ") is greater than the number of points (", length(x), ")"))
    all <- vector(3, mode="list")
    names(all) <- c("quantile", "split", "merge")
@@ -132,8 +131,7 @@ bins.default <- function(x, target.bins, max.breaks = NA, exact.groups=F, verbos
    }
 
    all$quantile <- bins.quantiles(x, target.bins, max.breaks)
-   if (all$quantile$err / (length(x) / target.bins) < errthresh)
-      return(structure(all$quantile, class = "binr")) # good enough
+   if (all$quantile$err / (length(x) / target.bins) < errthresh) return(all$quantile) # good enough
 
    xval <- all$quantile$xval
    xtbl <- all$quantile$xtbl
@@ -188,7 +186,7 @@ bins.default <- function(x, target.bins, max.breaks = NA, exact.groups=F, verbos
       }
    }
 
-   structure(lst, class = "binr")
+   return(lst)
 }
 
 #' @export
@@ -254,7 +252,7 @@ bins.getvals <- function(lst, minpt = -Inf, maxpt = Inf)
       if (n1 == n2) return((hi + lo) / 2)
       a <- hi - lo
       b <- 2 * a * n1 / (n2 - n1)
-      c = a * a * (n1 + n2)  / (n2 - n1) / 2
+      c <- a * a * (n1 + n2)  / (n2 - n1) / 2
       d <- (-b + sign(n2 - n1) * sqrt(b * b + 4 * c)) / 2
       return(lo + d)
    }
@@ -298,9 +296,7 @@ bins.getvals <- function(lst, minpt = -Inf, maxpt = Inf)
 #' @seealso \code{\link{bins}}
 #' @rawNamespace export(bins.merr)
 #' @usage bins.merr(binct, target.bins)
-bins.merr <- function(binct, target.bins) {
-  mean((binct - sum(binct) / target.bins)^2)
-}
+bins.merr <- function(binct, target.bins) { mean((binct - sum(binct) / target.bins)^2) }
 
 #-------------------------------------------------------------------------------
 
@@ -319,8 +315,8 @@ if (0)
    binsz <- floor(length(x) / nbins)
    minpts <- 1000
    thresh <- 0.8
-   target.bins = 10
-   max.breaks = 20
+   target.bins <- 10
+   max.breaks <- 20
 
    binlo <- 1:10
    binhi <- c(1:9,length(xval))

@@ -38,8 +38,8 @@
 #' @seealso \code{\link{binr}}, \code{\link{bins}}, \code{\link{bins.quantiles}} \code{\link{bins.optimize}}
 #' @rawNamespace export(bins.greedy)
 #' @rdname bins.greedy
-#' @usage bins.greedy(x, nbins, minpts = floor(0.5 * length(x)/nbins), thresh = 0.8, naive = FALSE)
-bins.greedy <- function(x, nbins, minpts = floor(0.5 * length(x)/nbins), thresh = 0.8, naive = FALSE)
+#' @usage bins.greedy(x, nbins, minpts = floor(0.5 * length(x) / nbins), thresh = 0.8, naive = FALSE)
+bins.greedy <- function(x, nbins, minpts = floor(0.5 * length(x) / nbins), thresh = 0.8, naive = FALSE)
 {
    xtbl <- table(x)
    xval <- sort(unique(x))
@@ -97,7 +97,7 @@ bins.greedy.impl <- function(xval, xtbl, xstp, binsz, nbins, thresh, verbose = F
 {
    nvals <- length(xval)
    if (nvals != length(xtbl) || nvals != length(xstp)) stop("bins.greedy: xval, xtbl and xstp lengths don't match")
-   xstp[1] = FALSE
+   xstp[1] <- FALSE
    binlo <- vector(nbins, mode="integer")
    binhi <- vector(nbins, mode="integer")
    binct <- vector(nbins, mode="integer")
