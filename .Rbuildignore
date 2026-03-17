@@ -1,3 +1,9 @@
 ^\.travis\.yml$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.editorconfig$
+^\.idea$
+
+^CRAN-SUBMISSION$
+^cran-comments.md$
+^cran-comments\.md$

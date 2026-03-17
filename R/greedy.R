@@ -22,6 +22,7 @@
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
+#' @description
 #' \code{bins.greedy} - Wrapper around \code{bins.greedy.impl}. Goes over the
 #' sorted values of \code{x} left to right and fills the bins with the values until
 #' they are about the right size.
@@ -33,12 +34,12 @@
 #'        by themselves take a whole bin to force the algorithm to place these values
 #'        in a bin separately.
 #' @name bins.greedy
-#' @title Greedy binning algorithm.
+#' @title Greedy binning algorithm
 #' @seealso \code{\link{binr}}, \code{\link{bins}}, \code{\link{bins.quantiles}} \code{\link{bins.optimize}}
-#' @export bins.greedy
+#' @export
 #' @rdname bins.greedy
 #' @usage bins.greedy(x, nbins, minpts = floor(0.5 * length(x)/nbins), thresh = 0.8, naive = FALSE)
-bins.greedy <- function(x, nbins, minpts = floor(0.5 * length(x)/nbins), thresh = 0.8, naive = FALSE)
+bins.greedy <- function(x, nbins, minpts = floor(0.5 * length(x) / nbins), thresh = 0.8, naive = FALSE)
 {
    xtbl <- table(x)
    xval <- sort(unique(x))
@@ -64,6 +65,7 @@ bins.greedy <- function(x, nbins, minpts = floor(0.5 * length(x)/nbins), thresh 
 
 #-------------------------------------------------------------------------------
 
+#' @description
 #' \code{bins.greedy.impl} - Implementation of a single-pass binning algorithm that examines sorted data left to right
 #' and builds bins of the target size. The \code{bins.greedy} wrapper around this function provides a less involved interface.
 #' This is not symmetric wrt direction: symmetric distributions may not have symmetric bins if there are multiple points
@@ -81,17 +83,17 @@ bins.greedy <- function(x, nbins, minpts = floor(0.5 * length(x)/nbins), thresh 
 #'        If \code{m} is below the threshold, the points having value V are added to the current bin.
 #' @param verbose When \code{TRUE}, prints the number of points falling into the bins.
 #' @return A list with the following items:
-#' \itemize{
+#' \describe{
 #'    \item{binlo}{ - The "low" value falling into the bin.}
 #'    \item{binhi}{ - The "high" value falling into the bin.}
 #'    \item{binct}{ - The number of points falling into the bin.}
 #'    \item{xtbl}{ - The result of a call to \code{table(x)}.}
 #'    \item{xval}{ - The sorted unique values of the data points x. Essentially, a numeric version of \code{names(xtbl)}.}
 #' }
-#' @export bins.greedy.impl
+#' @export
 #' @rdname bins.greedy
 #' @usage bins.greedy.impl(xval, xtbl, xstp, binsz, nbins, thresh, verbose = F)
-bins.greedy.impl <- function(xval, xtbl, xstp, binsz, nbins, thresh, verbose = F)
+bins.greedy.impl <- function(xval, xtbl, xstp, binsz, nbins, thresh, verbose=F)
 {
    nvals <- length(xval)
    if (nvals != length(xtbl) || nvals != length(xstp)) stop("bins.greedy: xval, xtbl and xstp lengths don't match")
