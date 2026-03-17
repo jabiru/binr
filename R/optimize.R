@@ -49,7 +49,7 @@
 #' }
 #' @name bins.optimize
 #' @aliases bins.move bins.split bins.merge bins.move.iter bins.split.iter bins.merge.iter
-#' @export
+#' @rawNamespace export(bins.move)
 #' @seealso \code{\link{bins}}, \code{\link{binr}}, \code{\link{bins.greedy}}, \code{\link{bins.quantiles}}
 #' @rdname bins.optimize
 #' @usage bins.move(xval, xtbl, binlo, binhi, binct, target.bins, verbose = F)
@@ -99,7 +99,7 @@ bins.move <- function(xval, xtbl, binlo, binhi, binct, target.bins, verbose = F)
       }
    }
 
-   changed = FALSE
+   changed <- FALSE
    if (!is.na(bestside))
    {
       i <- bestindx
@@ -112,7 +112,7 @@ bins.move <- function(xval, xtbl, binlo, binhi, binct, target.bins, verbose = F)
          binct[i] <- binct[i] - cnthi
          binhi[i] <- binhi[i] - 1
          binlo[i + 1] <- binlo[i + 1] - 1
-         changed = TRUE
+         changed <- TRUE
       }
       else if (bestside == 0)
       {
@@ -143,7 +143,7 @@ bins.move <- function(xval, xtbl, binlo, binhi, binct, target.bins, verbose = F)
 #'
 #' @param force When \code{TRUE}, splits or merges bins regardless of whether the best gain is positive.
 #' @param verbose When \code{TRUE}, prints resulting \code{binct}.
-#' @export
+#' @rawNamespace export(bins.split)
 #' @rdname bins.optimize
 #' @usage bins.split(xval, xtbl, binlo, binhi, binct, target.bins, force = F, verbose = F)
 bins.split <- function(xval, xtbl, binlo, binhi, binct, target.bins, force = F, verbose = F)
@@ -182,7 +182,7 @@ bins.split <- function(xval, xtbl, binlo, binhi, binct, target.bins, force = F, 
    }
 
    # This works with a single bin too.
-   changed = FALSE
+   changed <- FALSE
    if (!is.na(bestitem) && (bestgain > 0 || force))
    {
       k <- bestitem
@@ -217,7 +217,7 @@ bins.split <- function(xval, xtbl, binlo, binhi, binct, target.bins, force = F, 
 
 #' @description
 #' \code{bins.merge} - Merges the two bins yielding the largest gain in error reduction.
-#' @export
+#' @rawNamespace export(bins.merge)
 #' @rdname bins.optimize
 #' @usage bins.merge(xval, xtbl, binlo, binhi, binct, target.bins, force = F, verbose = F)
 bins.merge <- function(xval, xtbl, binlo, binhi, binct, target.bins, force = F, verbose = F)
@@ -272,7 +272,7 @@ bins.merge <- function(xval, xtbl, binlo, binhi, binct, target.bins, force = F, 
       binlo <- binlo.new
       binhi <- binhi.new
       binct <- binct.new
-      changed = TRUE
+      changed <- TRUE
    }
 
    names(binct) <- paste("[", xval[binlo], ", ", xval[binhi], "]", sep="")
@@ -286,12 +286,12 @@ bins.merge <- function(xval, xtbl, binlo, binhi, binct, target.bins, force = F, 
 #' @description
 #' \code{bins.move.iter} - Apply \code{bins.move} until there's no change. Can only reduce the error.
 #' @param lst List containing \code{xval, xtbl, binlo, binhi, binct}.
-#' @export
+#' @rawNamespace export(bins.move.iter)
 #' @rdname bins.optimize
 #' @usage bins.move.iter(lst, target.bins, verbose = F)
 bins.move.iter <- function(lst, target.bins, verbose = F)
 {
-   changed = TRUE
+   changed <- TRUE
    while (changed)
    {
       lst <- bins.move(lst$xval, lst$xtbl, lst$binlo, lst$binhi, lst$binct, target.bins=target.bins, verbose=F)
@@ -309,12 +309,12 @@ bins.move.iter <- function(lst, target.bins, verbose = F)
 #' reached or there's no more splits or merges that reduce the error.
 #' Otherwise (\code{TRUE}), run until the target.bins is reached, even if that
 #' increases the error.
-#' @export
+#' @rawNamespace export(bins.split.iter)
 #' @rdname bins.optimize
 #' @usage bins.split.iter(lst, target.bins, exact.groups = F, verbose = F)
 bins.split.iter <- function(lst, target.bins, exact.groups = F, verbose = F)
 {
-   changed = TRUE
+   changed <- TRUE
    # only split if the number of bins is less than desired
    while ( changed && length(lst$binct) < target.bins )
    {
@@ -329,16 +329,16 @@ bins.split.iter <- function(lst, target.bins, exact.groups = F, verbose = F)
 
 #' @description
 #' \code{bins.merge.iter} Iterate to repeatedly apply \code{bins.merge}.
-#' @export
+#' @rawNamespace export(bins.merge.iter)
 #' @rdname bins.optimize
 #' @usage bins.merge.iter(lst, target.bins, exact.groups = F, verbose = F)
 bins.merge.iter <- function(lst, target.bins, exact.groups = F, verbose = F)
 {
-   changed = TRUE
+   changed <- TRUE
    # always merge if the number of bins exceeds the desired number
    while ( (!exact.groups && changed) || length(lst$binct) > target.bins )
    {
-      force = length(lst$binct) > target.bins
+      force <- length(lst$binct) > target.bins
       lst <- bins.merge(lst$xval, lst$xtbl, lst$binlo, lst$binhi, lst$binct, target.bins=target.bins, force=force, verbose=verbose)
       if (verbose) print(paste(lst$gain, lst$err))
       changed <- lst$changed

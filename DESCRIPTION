@@ -1,6 +1,6 @@
 Package: binr
 Title: Cut Numeric Values into Evenly Distributed Groups
-Version: 1.1.2
+Version: 1.2.1
 Authors@R: person(given = "Sergei",
                   family = "Izrailev",
                   role = c("aut", "cre"),

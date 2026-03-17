@@ -7,7 +7,7 @@
 # Sergei Izrailev, 2011-2015
 #-------------------------------------------------------------------------------
 # Copyright 2011-2014 Collective, Inc.
-# Copyright 2015 Jabiru Ventures LLC
+# Copyright 2015-2026 Jabiru Ventures LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -60,6 +60,12 @@
 #' @param errthresh    If the error is below the provided value, stops after the first rough estimate of the bins.
 #' @param minpts       Minimum number of points in a bin.
 #'                     In \code{bins}, one of \code{max.breaks} and \code{minpts} must be supplied.
+#' @param ...          Further arguments passed to or from other methods; in particular,
+#'                     passed from \code{bins} to \code{bins.default} and from \code{predict.binr}
+#'                     to \code{cut}.
+#' @param object       An object of class \code{"binr"}, typically the result of \code{bins()}.
+#' @param data         Data to be cut according to \code{object}; either a numeric vector or a data frame.
+#' @param labels       Logical flag; when \code{TRUE}, return factor labels instead of integer codes.
 #' @return A list containing the following items (not all of them may be present):
 #' \describe{
 #'    \item{binlo}{ - The index into \code{xval} yielding the "low" value falling into the bin.}
@@ -95,8 +101,15 @@
 #' }
 #' @seealso \code{\link{binr}}, \code{\link{bins.greedy}}, \code{\link{bins.quantiles}} \code{\link{bins.optimize}}
 #' @export
+#' @importFrom stats predict
 #' @rdname bins
-bins <- function(x, target.bins, max.breaks = NA, exact.groups=F, verbose=F, errthresh = 0.1, minpts = NA)
+bins <- function(x, ...) {
+   UseMethod("bins")
+}
+
+#' @export
+#' @rdname bins
+bins.default <- function(x, target.bins, max.breaks = NA, exact.groups=F, verbose=F, errthresh = 0.1, minpts = NA, ...)
 {
    if (length(x) < target.bins) stop(paste("bins: number of desired groups (", target.bins, ") is greater than the number of points (", length(x), ")"))
    all <- vector(3, mode="list")
@@ -176,6 +189,42 @@ bins <- function(x, target.bins, max.breaks = NA, exact.groups=F, verbose=F, err
    return(lst)
 }
 
+#' @export
+#' @rdname bins
+bins.data.frame <- function(x, ...) {
+   structure(
+     lapply(x, function(col, ...) bins(col, ...), ...),
+     class = "binr"
+     )
+}
+
+#' @export
+#' @rdname bins
+predict.binr <- function(object, data, labels = FALSE, ...) {
+   obj <- object
+   if (is.data.frame(data)) {
+     if (all(names(data) %in% names(obj))) {
+       return(as.data.frame(sapply(
+         names(data), function(x) predict(obj[[x]], data[[x]],
+         labels = labels, ...)
+         )))
+     } else {
+        stop("data.frame has columns without bin cuts")
+     }
+   } else {
+     out <- cut(data, bins.getvals(obj),
+                labels = if(labels) NULL else FALSE, ...)
+     if (NA %in% out) {
+       if (labels) {
+         levels(out) <- c(levels(out), "[NA]")
+         out[is.na(out)] <- "[NA]"
+       } else {
+         out[is.na(out)] <- max(out, na.rm = TRUE) + 1
+       }
+     }
+     return(out)
+   }
+}
 
 #-------------------------------------------------------------------------------
 
@@ -193,7 +242,7 @@ bins <- function(x, target.bins, max.breaks = NA, exact.groups=F, verbose=F, err
 #'         as the counts of values in each bin are placed in attributes
 #'         \code{binlo}, \code{binhi} and \code{binct}, respectively.
 #' @seealso \code{\link{bins}}
-#' @export
+#' @rawNamespace export(bins.getvals)
 #' @usage bins.getvals(lst, minpt = -Inf, maxpt = Inf)
 bins.getvals <- function(lst, minpt = -Inf, maxpt = Inf)
 {
@@ -245,7 +294,7 @@ bins.getvals <- function(lst, minpt = -Inf, maxpt = Inf)
 #' @param target.bins Number of bins desired; this is also the max number of bins.
 #' @return The mean squared error.
 #' @seealso \code{\link{bins}}
-#' @export
+#' @rawNamespace export(bins.merr)
 #' @usage bins.merr(binct, target.bins)
 bins.merr <- function(binct, target.bins) { mean((binct - sum(binct) / target.bins)^2) }
 

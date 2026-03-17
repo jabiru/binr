@@ -2,20 +2,34 @@
 % Please edit documentation in R/bins.R
 \name{bins}
 \alias{bins}
+\alias{bins.default}
+\alias{bins.data.frame}
+\alias{predict.binr}
 \title{Cut Numeric Values Into Evenly Distributed Groups (Bins)}
 \usage{
-bins(
+bins(x, ...)
+
+\method{bins}{default}(
   x,
   target.bins,
   max.breaks = NA,
   exact.groups = F,
   verbose = F,
   errthresh = 0.1,
-  minpts = NA
+  minpts = NA,
+  ...
 )
+
+\method{bins}{data.frame}(x, ...)
+
+\method{predict}{binr}(object, data, labels = FALSE, ...)
 }
 \arguments{
 \item{x}{Vector of numbers}
+
+\item{...}{Further arguments passed to or from other methods; in particular,
+passed from \code{bins} to \code{bins.default} and from \code{predict.binr}
+to \code{cut}.}
 
 \item{target.bins}{Number of groups desired; this is also the max number of groups.}
 
@@ -32,6 +46,12 @@ if FALSE, the result may contain fewer than target.bins bins}
 
 \item{minpts}{Minimum number of points in a bin.
 In \code{bins}, one of \code{max.breaks} and \code{minpts} must be supplied.}
+
+\item{object}{An object of class \code{"binr"}, typically the result of \code{bins()}.}
+
+\item{data}{Data to be cut according to \code{object}; either a numeric vector or a data frame.}
+
+\item{labels}{Logical flag; when \code{TRUE}, return factor labels instead of integer codes.}
 }
 \value{
 A list containing the following items (not all of them may be present):

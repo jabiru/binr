@@ -38,6 +38,7 @@
 #' @name bins.quantiles
 #' @title Quantile-based binning
 #' @seealso \code{\link{binr}}, \code{\link{bins}}, \code{\link{bins.greedy}}, \code{\link{bins.optimize}}
+#' @importFrom stats quantile
 #' @export
 #' @usage bins.quantiles(x, target.bins, max.breaks, verbose = FALSE)
 bins.quantiles <- function(x, target.bins, max.breaks, verbose = FALSE)

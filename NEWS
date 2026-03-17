@@ -1,5 +1,7 @@
-Version 1.1.2
-- Documentation improvements.
+Version 1.2
+- Implementation of the predict() method by @smsaladi
+- Handling of NAs by @smsalady
+- Documentation updates
 Version 1.1.2
 - Documentation improvements.
 Version 1.1
